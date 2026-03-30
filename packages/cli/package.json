@@ -1,17 +1,48 @@
 {
-  "name": "dx-ray-cli",
+  "name": "dx-ray",
   "version": "1.0.0",
   "description": "CLI tool for DX-Ray — scan your codebase for developer experience issues",
   "main": "src/index.js",
   "bin": {
     "dx-ray": "./bin/dx-ray.js"
   },
+  "keywords": [
+    "dx-ray",
+    "cli",
+    "developer-experience",
+    "dx",
+    "code-quality",
+    "ci-cd",
+    "analysis",
+    "diagnostics",
+    "codebase-scanner"
+  ],
+  "author": "DX-Ray Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/dx-ray.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/dx-ray/issues"
+  },
+  "homepage": "https://github.com/yourusername/dx-ray#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "preferGlobal": true,
   "scripts": {
     "build": "echo 'CLI package (no build needed)'",
     "test": "jest"
   },
   "dependencies": {
-    "@dx-ray/core": "1.0.0",
+    "@dx-ray/core": "^1.0.0",
     "commander": "^12.1.0",
     "chalk": "^4.1.2",
     "ora": "^5.4.1",
@@ -19,6 +50,5 @@
     "open": "^8.4.2",
     "cli-table3": "^0.6.3",
     "figures": "^3.2.0"
-  },
-  "license": "MIT"
+  }
 }

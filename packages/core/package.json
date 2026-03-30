@@ -1,8 +1,40 @@
 {
   "name": "@dx-ray/core",
   "version": "1.0.0",
-  "description": "Core analysis engine for DX-Ray",
+  "description": "Core analysis engine for DX-Ray — diagnose developer experience friction",
   "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "keywords": [
+    "dx-ray",
+    "developer-experience",
+    "dx",
+    "code-quality",
+    "ci-cd",
+    "analysis",
+    "diagnostics",
+    "codebase-scanner"
+  ],
+  "author": "DX-Ray Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/dx-ray.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/dx-ray/issues"
+  },
+  "homepage": "https://github.com/yourusername/dx-ray#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "echo 'Core package (no build needed)'",
     "test": "jest"
@@ -12,6 +44,5 @@
     "glob": "^10.3.10",
     "chalk": "^4.1.2",
     "date-fns": "^3.6.0"
-  },
-  "license": "MIT"
+  }
 }
