@@ -1,6 +1,6 @@
-# @dx-ray/core
+# dxray-core
 
-[![npm version](https://img.shields.io/npm/v/@dx-ray/core.svg)](https://www.npmjs.com/package/@dx-ray/core)
+[![npm version](https://img.shields.io/npm/v/dxray-core.svg)](https://www.npmjs.com/package/dxray-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Core analysis engine for **DX-Ray** — diagnose developer experience friction in your codebase.
@@ -20,13 +20,13 @@ Analyzes 7 critical dimensions of developer experience:
 ## Installation
 
 ```bash
-npm install @dx-ray/core
+npm install dxray-core
 ```
 
 ## Usage
 
 ```javascript
-const { DXRay } = require("@dx-ray/core");
+const { DXRay } = require("dxray-core");
 
 // Create scanner instance
 const dxray = new DXRay({ targetDir: process.cwd() });

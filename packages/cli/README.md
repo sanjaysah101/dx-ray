@@ -26,6 +26,7 @@ dx-ray report --output dx-report.json
 ## Features
 
 🔍 **7 Diagnostic Tracks**
+
 - Git health and commit patterns
 - Code quality and standards
 - CI/CD pipeline setup
@@ -35,12 +36,14 @@ dx-ray report --output dx-report.json
 - Code review process
 
 📊 **Scoring System**
+
 - 0-100 overall DX score
 - A-F grade rating
 - Per-track breakdown
 - Before/after comparison
 
 🎨 **Beautiful Output**
+
 - Colored terminal dashboard
 - Web interface with real-time updates
 - JSON report generation
@@ -61,6 +64,7 @@ npx dx-ray scan
 ## Commands
 
 ### scan
+
 Run a complete DX health scan on your project:
 
 ```bash
@@ -75,6 +79,7 @@ Options:
 ```
 
 Examples:
+
 ```bash
 # Scan current directory
 dx-ray scan
@@ -93,6 +98,7 @@ dx-ray scan --json > results.json
 ```
 
 ### dashboard
+
 Open the interactive web dashboard (Prisma Studio-style):
 
 ```bash
@@ -104,6 +110,7 @@ Options:
 ```
 
 Examples:
+
 ```bash
 # Open dashboard for current project
 dx-ray dashboard
@@ -113,6 +120,7 @@ dx-ray dashboard --port 3000
 ```
 
 ### report
+
 Generate a detailed report:
 
 ```bash
@@ -125,6 +133,7 @@ Options:
 ```
 
 ### compare
+
 Compare two scans to measure improvements:
 
 ```bash
@@ -136,26 +145,31 @@ Shows improvements across all tracks with delta calculations.
 ## Understanding Your Score
 
 **Grade A (80-100)** — Excellent
+
 - Well-established practices
 - Low friction for developers
 - Strong infrastructure
 
 **Grade B (70-79)** — Good
+
 - Solid foundation
 - Some optimization opportunities
 - Minor friction points
 
 **Grade C (60-69)** — Moderate
+
 - Inconsistent practices
 - Notable friction areas
 - Plan improvements
 
 **Grade D (50-59)** — Concerning
+
 - Significant issues
 - High developer friction
 - Requires action
 
 **Grade F (0-49)** — Critical
+
 - Multiple critical problems
 - Severe friction
 - Major overhaul needed
@@ -237,16 +251,19 @@ Create `.dx-rayrc.json` to customize behavior:
 ## Troubleshooting
 
 ### Scan hangs or times out
+
 - Check for large directories with many files
 - Use `--track` to scan specific tracks
 - Check available disk space
 
 ### No scan results
+
 - Ensure target directory exists
 - Check file permissions
 - Verify no antivirus interference
 
 ### Dashboard not loading
+
 - Ensure port is available
 - Check firewall settings
 - Try different port: `dx-ray dashboard --port 3000`
@@ -261,7 +278,7 @@ MIT © 2026
 
 ## Links
 
-- [Core Library](https://www.npmjs.com/package/@dx-ray/core)
+- [Core Library](https://www.npmjs.com/package/dxray-core)
 - [GitHub](https://github.com/yourusername/dx-ray)
 - [Documentation](https://dx-ray.dev)
 

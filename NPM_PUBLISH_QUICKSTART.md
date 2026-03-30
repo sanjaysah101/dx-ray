@@ -9,7 +9,7 @@ All items completed:
 - ✅ README.md files created for both packages
 - ✅ .npmignore files configured to exclude dev files
 - ✅ Package names finalized:
-  - `@dx-ray/core` (scoped library)
+  - `dxray-core` (scoped library)
   - `dx-ray` (CLI tool)
 - ✅ bin/dx-ray.js has proper shebang
 - ✅ npm pack verification passed
@@ -51,13 +51,13 @@ npm publish
 
 Visit these URLs to confirm:
 
-- <https://www.npmjs.com/package/@dx-ray/core>
+- <https://www.npmjs.com/package/dxray-core>
 - <https://www.npmjs.com/package/dx-ray>
 
 Or check via CLI:
 
 ```bash
-npm view @dx-ray/core
+npm view dxray-core
 npm view dx-ray
 ```
 
@@ -97,7 +97,7 @@ dx-ray scan
 npx dx-ray scan
 
 # As library
-npm install @dx-ray/core
+npm install dxray-core
 ```
 
 ---

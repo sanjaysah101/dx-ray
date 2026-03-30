@@ -58,10 +58,12 @@ program
 
     const targetDir = path.resolve(options.dir);
     const isTTY = process.stdout.isTTY;
-    const spinner = isTTY ? ora({
-      text: "Initializing scan...",
-      color: "cyan",
-    }).start() : null;
+    const spinner = isTTY
+      ? ora({
+          text: "Initializing scan...",
+          color: "cyan",
+        }).start()
+      : null;
 
     try {
       const dxray = new DXRay({ targetDir });

@@ -1,6 +1,6 @@
 {
-  "name": "@dx-ray/core",
-  "version": "1.0.0",
+  "name": "dxray-core",
+  "version": "1.1.0",
   "description": "Core analysis engine for DX-Ray — diagnose developer experience friction",
   "main": "src/index.js",
   "types": "src/index.d.ts",

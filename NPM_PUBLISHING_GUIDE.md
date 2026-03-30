@@ -4,8 +4,8 @@
 
 DX-Ray consists of two npm packages:
 
-1. **@dx-ray/core** — Core analysis engine library
-2. **dx-ray** — CLI tool (depends on @dx-ray/core)
+1. **dxray-core** — Core analysis engine library
+2. **dx-ray** — CLI tool (depends on dxray-core)
 
 Both packages are configured and ready to publish to npmjs.com.
 
@@ -50,7 +50,7 @@ Both packages should build successfully.
 
 ## Publishing Order
 
-**Important**: Publish `@dx-ray/core` first since `dx-ray` depends on it.
+**Important**: Publish `dxray-core` first since `dx-ray` depends on it.
 
 ### Publish Core Library
 
@@ -64,19 +64,19 @@ npm pack
 npm publish
 
 # Verify publication
-npm view @dx-ray/core
+npm view dxray-core
 ```
 
 **Expected output:**
 
 ```
-npm notice 📦 @dx-ray/core@1.0.0
+npm notice 📦 dxray-core@1.0.0
 npm notice === Tarball Contents ===
 npm notice 123B   package.json
 npm notice 456B   README.md
 npm notice 789B   src/index.js
 npm notice === Tarball Details ===
-npm notice name:          @dx-ray/core
+npm notice name:          dxray-core
 npm notice version:       1.0.0
 npm notice publishConfig: {"access":"public"}
 ```
@@ -107,8 +107,8 @@ npm view dx-ray
 1. **Core Library**
 
    ```bash
-   npm view @dx-ray/core
-   npm info @dx-ray/core
+   npm view dxray-core
+   npm info dxray-core
    ```
 
 2. **CLI Tool**
@@ -119,7 +119,7 @@ npm view dx-ray
    ```
 
 3. **On npmjs.com**
-   - Visit <https://www.npmjs.com/package/@dx-ray/core>
+   - Visit https://www.npmjs.com/package/dxray-core
    - Visit <https://www.npmjs.com/package/dx-ray>
 
 ### Test Installation
@@ -133,7 +133,7 @@ dx-ray --version
 dx-ray scan
 
 # Test library installation
-npm install @dx-ray/core
+npm install dxray-core
 ```
 
 ---
@@ -231,7 +231,7 @@ npm install -g dx-ray
 npx dx-ray scan
 
 # Library
-npm install @dx-ray/core
+npm install dxray-core
 ```
 
 ---
@@ -240,7 +240,7 @@ npm install @dx-ray/core
 
 After publishing:
 
-- **@dx-ray/core** → <https://www.npmjs.com/package/@dx-ray/core>
+- **dxray-core** → https://www.npmjs.com/package/dxray-core
 - **dx-ray** → <https://www.npmjs.com/package/dx-ray>
 
 Share these links in:
@@ -309,7 +309,7 @@ dx-ray scan
 ### As a library
 
 \`\`\`bash
-npm install @dx-ray/core
+npm install dxray-core
 \`\`\`
 
 ### Or use without installing
@@ -321,7 +321,7 @@ npx dx-ray scan
 ## Links
 
 - [dx-ray on npm](https://www.npmjs.com/package/dx-ray)
-- [@dx-ray/core on npm](https://www.npmjs.com/package/@dx-ray/core)
+- [dxray-core on npm](https://www.npmjs.com/package/dxray-core)
 - [GitHub Repository](https://github.com/yourusername/dx-ray)
 ```
 
