@@ -119,7 +119,7 @@ npm view dx-ray
    ```
 
 3. **On npmjs.com**
-   - Visit https://www.npmjs.com/package/dxray-core
+   - Visit <https://www.npmjs.com/package/dxray-core>e>
    - Visit <https://www.npmjs.com/package/dx-ray>
 
 ### Test Installation
@@ -240,7 +240,7 @@ npm install dxray-core
 
 After publishing:
 
-- **dxray-core** → https://www.npmjs.com/package/dxray-core
+- **dxray-core** → <https://www.npmjs.com/package/dxray-core>e>
 - **dx-ray** → <https://www.npmjs.com/package/dx-ray>
 
 Share these links in:

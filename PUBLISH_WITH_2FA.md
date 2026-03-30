@@ -30,10 +30,12 @@ npm publish --otp=<YOUR_6_DIGIT_CODE>
 
 ## Troubleshooting
 
-**OTP timed out?** 
+**OTP timed out?**
+
 - Get a new code and try again
 
 **Still showing error?**
+
 - Make sure you're logged in: `npm whoami`
 - Try: `npm login` again before publishing
 
@@ -50,12 +52,14 @@ npm publish --otp=654321 --workspace=packages/cli
 ---
 
 After publishing, verify:
+
 ```bash
 npm view dxray-core
 npm view dx-ray
 ```
 
 Then test:
+
 ```bash
 npx dx-ray scan
 ```
