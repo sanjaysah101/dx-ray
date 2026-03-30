@@ -1,0 +1,23 @@
+{
+  "name": "dx-ray-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for DX-Ray — scan your codebase for developer experience issues",
+  "main": "src/index.js",
+  "bin": {
+    "dx-ray": "./bin/dx-ray.js"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@dx-ray/core": "1.0.0",
+    "commander": "^12.1.0",
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1",
+    "boxen": "^5.1.2",
+    "open": "^8.4.2",
+    "cli-table3": "^0.6.3",
+    "figures": "^3.2.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,30 @@
+{
+  "name": "dx-ray",
+  "version": "1.0.0",
+  "description": "DX-Ray — Diagnose developer experience friction. Scan codebases, CI/CD, PRs, tests, and docs to reveal hidden problems and suggest actionable fixes.",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspace=packages/core && npm run build --workspace=packages/cli && npm run build --workspace=apps/web",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "scan": "node packages/cli/bin/dx-ray.js scan",
+    "test": "jest"
+  },
+  "keywords": [
+    "developer-experience",
+    "dx",
+    "code-quality",
+    "ci-cd",
+    "analysis",
+    "diagnostics"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

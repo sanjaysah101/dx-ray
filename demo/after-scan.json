@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-03-30T10:00:00.000Z",
+  "targetDir": "/projects/acme-webapp",
+  "score": 81,
+  "grade": "B",
+  "summary": {
+    "totalFindings": 9,
+    "criticalFindings": 0,
+    "warningFindings": 5,
+    "infoFindings": 4,
+    "totalSuggestions": 8,
+    "tracksScanned": 7,
+    "tracksWithErrors": 0
+  },
+  "tracks": {
+    "git": { "score": 79, "status": "complete", "severity": "warning", "findings": [{"severity":"warning","title":"Bus Factor Improved to 3"},{"severity":"info","title":"Late-Night Commits Reduced to 12%"}], "suggestions": [] },
+    "code-quality": { "score": 75, "status": "complete", "severity": "warning", "findings": [{"severity":"warning","title":"TypeScript Migration at 45%"},{"severity":"info","title":"Console.logs Reduced to 23"}], "suggestions": [] },
+    "cicd": { "score": 92, "status": "complete", "severity": "healthy", "findings": [{"severity":"info","title":"Build time reduced by 45% with caching"}], "suggestions": [] },
+    "tests": { "score": 72, "status": "complete", "severity": "warning", "findings": [{"severity":"warning","title":"Coverage at 68% (target: 70%)"},{"severity":"warning","title":"Snapshot tests reduced to 25%"}], "suggestions": [] },
+    "docs": { "score": 88, "status": "complete", "severity": "healthy", "findings": [{"severity":"info","title":"Only 2 stale docs remaining"}], "suggestions": [] },
+    "dependencies": { "score": 90, "status": "complete", "severity": "healthy", "findings": [{"severity":"info","title":"Dependencies reduced to 45"}], "suggestions": [] },
+    "pr-review": { "score": 82, "status": "complete", "severity": "healthy", "findings": [{"severity":"warning","title":"Merge cadence improved to 18h"}], "suggestions": [] }
+  }
+}
