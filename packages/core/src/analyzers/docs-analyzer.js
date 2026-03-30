@@ -1,12 +1,12 @@
-const { BaseAnalyzer } = require('./base-analyzer');
-const fs = require('fs');
-const path = require('path');
-const fastGlob = require('fast-glob');
-const simpleGit = require('simple-git');
+const { BaseAnalyzer } = require("./base-analyzer");
+const fs = require("fs");
+const path = require("path");
+const { glob } = require("glob");
+const simpleGit = require("simple-git");
 
 /**
  * Documentation Freshness Analyzer (Track C)
- * 
+ *
  * Scans documentation for:
  * - README presence and quality
  * - Documentation staleness (last updated vs code changes)
@@ -18,7 +18,7 @@ const simpleGit = require('simple-git');
 class DocsAnalyzer extends BaseAnalyzer {
   constructor(targetDir, options = {}) {
     super(targetDir, options);
-    this.trackName = 'docs';
+    this.trackName = "docs";
     this.git = simpleGit(targetDir);
   }
 
@@ -33,10 +33,10 @@ class DocsAnalyzer extends BaseAnalyzer {
     } catch (err) {
       return {
         track: this.trackName,
-        status: 'error',
+        status: "error",
         error: err.message,
         score: 0,
-        severity: 'unknown',
+        severity: "unknown",
         findings: [],
         suggestions: [],
       };
@@ -45,11 +45,23 @@ class DocsAnalyzer extends BaseAnalyzer {
 
   async _checkEssentialDocs() {
     const essentialDocs = {
-      'README.md': { severity: 'critical', description: 'Project overview and setup instructions' },
-      'CONTRIBUTING.md': { severity: 'info', description: 'Contribution guidelines for new developers' },
-      'CHANGELOG.md': { severity: 'info', description: 'Track of changes across versions' },
-      'LICENSE': { severity: 'warning', description: 'Open source license file' },
-      '.env.example': { severity: 'warning', description: 'Example environment variables for onboarding' },
+      "README.md": {
+        severity: "critical",
+        description: "Project overview and setup instructions",
+      },
+      "CONTRIBUTING.md": {
+        severity: "info",
+        description: "Contribution guidelines for new developers",
+      },
+      "CHANGELOG.md": {
+        severity: "info",
+        description: "Track of changes across versions",
+      },
+      LICENSE: { severity: "warning", description: "Open source license file" },
+      ".env.example": {
+        severity: "warning",
+        description: "Example environment variables for onboarding",
+      },
     };
 
     const found = {};
@@ -83,31 +95,36 @@ class DocsAnalyzer extends BaseAnalyzer {
     this.metrics.essentialDocs = {
       found: Object.keys(found),
       missing: Object.keys(missing),
-      completeness: Math.round((Object.keys(found).length / Object.keys(essentialDocs).length) * 100),
+      completeness: Math.round(
+        (Object.keys(found).length / Object.keys(essentialDocs).length) * 100,
+      ),
     };
 
-    if (missing['README.md']) {
+    if (missing["README.md"]) {
       this.addSuggestion({
-        title: 'Create a README.md',
-        description: 'Every project needs a README with: project description, setup instructions, usage examples, and contribution guidelines.',
-        priority: 'high',
-        impact: 'high',
-        effort: 'low',
+        title: "Create a README.md",
+        description:
+          "Every project needs a README with: project description, setup instructions, usage examples, and contribution guidelines.",
+        priority: "high",
+        impact: "high",
+        effort: "low",
       });
     }
   }
 
   async _analyzeDocFreshness() {
-    const docPatterns = [
-      '**/*.md',
-      '**/docs/**',
-      '**/documentation/**',
+    const docPatterns = ["**/*.md", "**/docs/**", "**/documentation/**"];
+    const ignorePatterns = [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/CHANGELOG.md",
     ];
-    const ignorePatterns = ['**/node_modules/**', '**/dist/**', '**/build/**', '**/CHANGELOG.md'];
 
-    const docFiles = await fastGlob(docPatterns, {
+    const docFiles = await glob(docPatterns, {
       cwd: this.targetDir,
       ignore: ignorePatterns,
+      nodir: true,
     });
 
     if (docFiles.length === 0) return;
@@ -127,7 +144,7 @@ class DocsAnalyzer extends BaseAnalyzer {
     for (const docFile of docFiles) {
       try {
         let lastModified;
-        
+
         if (isGitRepo) {
           // Use git log for accurate last-modified date
           const log = await this.git.log({ file: docFile, maxCount: 1 });
@@ -135,15 +152,23 @@ class DocsAnalyzer extends BaseAnalyzer {
             lastModified = new Date(log.latest.date);
           }
         }
-        
+
         if (!lastModified) {
           // Fallback to file system mtime
-          const stat = await fs.promises.stat(path.join(this.targetDir, docFile));
+          const stat = await fs.promises.stat(
+            path.join(this.targetDir, docFile),
+          );
           lastModified = stat.mtime;
         }
 
-        const ageDays = Math.round((now - lastModified) / (1000 * 60 * 60 * 24));
-        docAges.push({ file: docFile, ageDays, lastModified: lastModified.toISOString() });
+        const ageDays = Math.round(
+          (now - lastModified) / (1000 * 60 * 60 * 24),
+        );
+        docAges.push({
+          file: docFile,
+          ageDays,
+          lastModified: lastModified.toISOString(),
+        });
 
         if (ageDays > staleThresholdDays) {
           staleCount++;
@@ -162,29 +187,34 @@ class DocsAnalyzer extends BaseAnalyzer {
       staleDocs: staleCount,
       stalePercentage: stalePct,
       oldestDocs: docAges.slice(0, 10),
-      averageAgeDays: docAges.length > 0 ? Math.round(docAges.reduce((sum, d) => sum + d.ageDays, 0) / docAges.length) : 0,
+      averageAgeDays:
+        docAges.length > 0
+          ? Math.round(
+              docAges.reduce((sum, d) => sum + d.ageDays, 0) / docAges.length,
+            )
+          : 0,
     };
 
     if (stalePct > 40) {
       this.addFinding({
-        severity: 'warning',
-        title: 'Stale Documentation',
+        severity: "warning",
+        title: "Stale Documentation",
         description: `${stalePct}% of documentation files haven't been updated in 6+ months. Stale docs mislead developers and slow onboarding.`,
         data: { stalePct, staleCount, total: docFiles.length },
       });
       this.addSuggestion({
-        title: 'Review and Update Stale Docs',
+        title: "Review and Update Stale Docs",
         description: `${staleCount} docs are stale. Start with: ${docAges[0]?.file} (${docAges[0]?.ageDays} days old).`,
-        priority: 'medium',
-        impact: 'medium',
-        effort: 'medium',
+        priority: "medium",
+        impact: "medium",
+        effort: "medium",
       });
     }
   }
 
   async _analyzeReadmeQuality() {
     let readmePath;
-    for (const name of ['README.md', 'readme.md', 'Readme.md']) {
+    for (const name of ["README.md", "readme.md", "Readme.md"]) {
       try {
         const fullPath = path.join(this.targetDir, name);
         await fs.promises.access(fullPath);
@@ -197,8 +227,8 @@ class DocsAnalyzer extends BaseAnalyzer {
 
     if (!readmePath) return;
 
-    const content = await fs.promises.readFile(readmePath, 'utf-8');
-    const lines = content.split('\n');
+    const content = await fs.promises.readFile(readmePath, "utf-8");
+    const lines = content.split("\n");
 
     const qualityChecks = {
       hasTitle: /^#\s/.test(content),
@@ -215,32 +245,39 @@ class DocsAnalyzer extends BaseAnalyzer {
     this.metrics.readmeQuality = qualityChecks;
 
     const missingSection = [];
-    if (!qualityChecks.hasInstallation) missingSection.push('Installation/Setup');
-    if (!qualityChecks.hasUsage) missingSection.push('Usage/Examples');
-    if (!qualityChecks.hasCodeExamples) missingSection.push('Code Examples');
+    if (!qualityChecks.hasInstallation)
+      missingSection.push("Installation/Setup");
+    if (!qualityChecks.hasUsage) missingSection.push("Usage/Examples");
+    if (!qualityChecks.hasCodeExamples) missingSection.push("Code Examples");
 
     if (missingSection.length > 0) {
       this.addFinding({
-        severity: 'info',
-        title: 'README Missing Key Sections',
-        description: `README is missing: ${missingSection.join(', ')}. A complete README helps new developers get started quickly.`,
+        severity: "info",
+        title: "README Missing Key Sections",
+        description: `README is missing: ${missingSection.join(", ")}. A complete README helps new developers get started quickly.`,
         data: { missingSections: missingSection },
       });
     }
 
     if (qualityChecks.wordCount < 50) {
       this.addFinding({
-        severity: 'warning',
-        title: 'README Too Short',
+        severity: "warning",
+        title: "README Too Short",
         description: `README has only ${qualityChecks.wordCount} words. A good README should thoroughly explain the project.`,
       });
     }
   }
 
   async _analyzeInlineDocumentation() {
-    const sourceFiles = await fastGlob('**/*.{js,jsx,ts,tsx}', {
+    const sourceFiles = await glob("**/*.{js,jsx,ts,tsx}", {
       cwd: this.targetDir,
-      ignore: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.next/**'],
+      ignore: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.next/**",
+      ],
+      nodir: true,
     });
 
     if (sourceFiles.length === 0) return;
@@ -254,12 +291,17 @@ class DocsAnalyzer extends BaseAnalyzer {
 
     for (const file of sample) {
       try {
-        const content = await fs.promises.readFile(path.join(this.targetDir, file), 'utf-8');
-        
+        const content = await fs.promises.readFile(
+          path.join(this.targetDir, file),
+          "utf-8",
+        );
+
         if (/\/\*\*/.test(content)) filesWithJSDoc++;
 
         // Count exported functions
-        const funcMatches = content.match(/export\s+(default\s+)?function|export\s+const\s+\w+\s*=/g);
+        const funcMatches = content.match(
+          /export\s+(default\s+)?function|export\s+const\s+\w+\s*=/g,
+        );
         if (funcMatches) {
           totalFunctions += funcMatches.length;
           // Check if preceded by JSDoc
@@ -271,7 +313,10 @@ class DocsAnalyzer extends BaseAnalyzer {
       }
     }
 
-    const docPct = totalFunctions > 0 ? Math.round((documentedFunctions / totalFunctions) * 100) : 0;
+    const docPct =
+      totalFunctions > 0
+        ? Math.round((documentedFunctions / totalFunctions) * 100)
+        : 0;
 
     this.metrics.inlineDocumentation = {
       sampledFiles: sample.length,
@@ -283,8 +328,8 @@ class DocsAnalyzer extends BaseAnalyzer {
 
     if (docPct < 20 && totalFunctions > 10) {
       this.addFinding({
-        severity: 'info',
-        title: 'Low Inline Documentation',
+        severity: "info",
+        title: "Low Inline Documentation",
         description: `Only ${docPct}% of exported functions have JSDoc comments. Good inline docs improve IDE experience and onboarding.`,
         data: { docPct },
       });

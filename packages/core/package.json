@@ -4,14 +4,14 @@
   "description": "Core analysis engine for DX-Ray",
   "main": "src/index.js",
   "scripts": {
+    "build": "echo 'Core package (no build needed)'",
     "test": "jest"
   },
   "dependencies": {
     "simple-git": "^3.22.0",
     "glob": "^10.3.10",
     "chalk": "^4.1.2",
-    "date-fns": "^3.6.0",
-    "fast-glob": "^3.3.2"
+    "date-fns": "^3.6.0"
   },
   "license": "MIT"
 }

@@ -13,12 +13,92 @@
     "tracksWithErrors": 0
   },
   "tracks": {
-    "git": { "score": 58, "status": "complete", "severity": "critical", "findings": [{"severity":"critical","title":"Critical Bus Factor"},{"severity":"warning","title":"High Late-Night Commit Rate"},{"severity":"warning","title":"Significant Weekend Work"},{"severity":"warning","title":"Too Many Large Commits"},{"severity":"warning","title":"Code Hotspots Detected"},{"severity":"info","title":"No Conventional Commit Format"}], "suggestions": [] },
-    "code-quality": { "score": 38, "status": "complete", "severity": "critical", "findings": [{"severity":"warning","title":"No TypeScript Adoption"},{"severity":"warning","title":"Missing: Prettier"},{"severity":"warning","title":"Missing: Husky"},{"severity":"warning","title":"Console.log Pollution (156)"},{"severity":"warning","title":"4 Large Files Detected"},{"severity":"warning","title":"Technical Debt Markers"},{"severity":"info","title":"High TODO Count (47)"}], "suggestions": [] },
-    "cicd": { "score": 48, "status": "complete", "severity": "critical", "findings": [{"severity":"warning","title":"No CI Caching"},{"severity":"warning","title":"No Security Scanning"},{"severity":"info","title":"No Parallelization"},{"severity":"info","title":"No Deployment Pipeline"}], "suggestions": [] },
-    "tests": { "score": 42, "status": "complete", "severity": "critical", "findings": [{"severity":"critical","title":"Low Test Coverage (0.1 ratio)"},{"severity":"warning","title":"Low Code Coverage (34%)"},{"severity":"warning","title":"Snapshot Test Overuse (63%)"},{"severity":"info","title":"No E2E Testing"}], "suggestions": [] },
-    "docs": { "score": 65, "status": "complete", "severity": "warning", "findings": [{"severity":"warning","title":"58% Stale Documentation"},{"severity":"info","title":"Missing CONTRIBUTING.md"},{"severity":"info","title":"Missing .env.example"},{"severity":"info","title":"README Missing Sections"}], "suggestions": [] },
-    "dependencies": { "score": 71, "status": "complete", "severity": "warning", "findings": [{"severity":"critical","title":"Wildcard Dependencies (4)"},{"severity":"warning","title":"High Dependency Count (67)"},{"severity":"info","title":"Heavy Dependency: moment"},{"severity":"info","title":"No Engine Constraints"}], "suggestions": [] },
-    "pr-review": { "score": 55, "status": "complete", "severity": "critical", "findings": [{"severity":"warning","title":"Slow Merge Cadence (96h)"},{"severity":"warning","title":"Review Bottleneck (63%)"}], "suggestions": [] }
+    "git": {
+      "score": 58,
+      "status": "complete",
+      "severity": "critical",
+      "findings": [
+        { "severity": "critical", "title": "Critical Bus Factor" },
+        { "severity": "warning", "title": "High Late-Night Commit Rate" },
+        { "severity": "warning", "title": "Significant Weekend Work" },
+        { "severity": "warning", "title": "Too Many Large Commits" },
+        { "severity": "warning", "title": "Code Hotspots Detected" },
+        { "severity": "info", "title": "No Conventional Commit Format" }
+      ],
+      "suggestions": []
+    },
+    "code-quality": {
+      "score": 38,
+      "status": "complete",
+      "severity": "critical",
+      "findings": [
+        { "severity": "warning", "title": "No TypeScript Adoption" },
+        { "severity": "warning", "title": "Missing: Prettier" },
+        { "severity": "warning", "title": "Missing: Husky" },
+        { "severity": "warning", "title": "Console.log Pollution (156)" },
+        { "severity": "warning", "title": "4 Large Files Detected" },
+        { "severity": "warning", "title": "Technical Debt Markers" },
+        { "severity": "info", "title": "High TODO Count (47)" }
+      ],
+      "suggestions": []
+    },
+    "cicd": {
+      "score": 48,
+      "status": "complete",
+      "severity": "critical",
+      "findings": [
+        { "severity": "warning", "title": "No CI Caching" },
+        { "severity": "warning", "title": "No Security Scanning" },
+        { "severity": "info", "title": "No Parallelization" },
+        { "severity": "info", "title": "No Deployment Pipeline" }
+      ],
+      "suggestions": []
+    },
+    "tests": {
+      "score": 42,
+      "status": "complete",
+      "severity": "critical",
+      "findings": [
+        { "severity": "critical", "title": "Low Test Coverage (0.1 ratio)" },
+        { "severity": "warning", "title": "Low Code Coverage (34%)" },
+        { "severity": "warning", "title": "Snapshot Test Overuse (63%)" },
+        { "severity": "info", "title": "No E2E Testing" }
+      ],
+      "suggestions": []
+    },
+    "docs": {
+      "score": 65,
+      "status": "complete",
+      "severity": "warning",
+      "findings": [
+        { "severity": "warning", "title": "58% Stale Documentation" },
+        { "severity": "info", "title": "Missing CONTRIBUTING.md" },
+        { "severity": "info", "title": "Missing .env.example" },
+        { "severity": "info", "title": "README Missing Sections" }
+      ],
+      "suggestions": []
+    },
+    "dependencies": {
+      "score": 71,
+      "status": "complete",
+      "severity": "warning",
+      "findings": [
+        { "severity": "critical", "title": "Wildcard Dependencies (4)" },
+        { "severity": "warning", "title": "High Dependency Count (67)" },
+        { "severity": "info", "title": "Heavy Dependency: moment" },
+        { "severity": "info", "title": "No Engine Constraints" }
+      ],
+      "suggestions": []
+    },
+    "pr-review": {
+      "score": 55,
+      "status": "complete",
+      "severity": "critical",
+      "findings": [
+        { "severity": "warning", "title": "Slow Merge Cadence (96h)" },
+        { "severity": "warning", "title": "Review Bottleneck (63%)" }
+      ],
+      "suggestions": []
+    }
   }
 }

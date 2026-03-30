@@ -1,0 +1,26 @@
+Node: v24.7.0 | win32
+DXRay loaded
+Scanning code-quality...
+code-quality done: 59
+Scanning cicd...
+cicd done: 93
+Scanning tests...
+tests done: 66
+Scanning docs...
+docs done: 91
+Scanning dependencies...
+dependencies done: 100
+Scanning git...
+git done: 93
+Scanning pr-review...
+pr-review done: 100
+Score: 80 Grade: B
+Findings: 16 Suggestions: 11
+  code-quality: score=59 status=complete findings=8
+  cicd: score=93 status=complete findings=1
+  tests: score=66 status=complete findings=4
+  docs: score=91 status=complete findings=2
+  dependencies: score=100 status=complete findings=0
+  git: score=93 status=complete findings=1
+  pr-review: score=100 status=complete findings=0
+DONE

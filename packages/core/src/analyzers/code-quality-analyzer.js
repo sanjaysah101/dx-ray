@@ -1,11 +1,11 @@
-const { BaseAnalyzer } = require('./base-analyzer');
-const fs = require('fs');
-const path = require('path');
-const fastGlob = require('fast-glob');
+const { BaseAnalyzer } = require("./base-analyzer");
+const fs = require("fs");
+const path = require("path");
+const { glob } = require("glob");
 
 /**
  * Code Quality Analyzer
- * 
+ *
  * Scans the codebase for quality signals:
  * - ESLint/Biome/Prettier configuration presence
  * - TypeScript adoption (type safety)
@@ -19,23 +19,23 @@ const fastGlob = require('fast-glob');
 class CodeQualityAnalyzer extends BaseAnalyzer {
   constructor(targetDir, options = {}) {
     super(targetDir, options);
-    this.trackName = 'code-quality';
+    this.trackName = "code-quality";
   }
 
   async analyze() {
     try {
       // Detect project type and tooling
       await this._detectTooling();
-      
+
       // Scan source files
       await this._analyzeSourceFiles();
-      
+
       // Check for type safety
       await this._analyzeTypeSafety();
-      
+
       // Check linting configuration
       await this._analyzeLintConfig();
-      
+
       // Check formatting configuration
       await this._analyzeFormattingConfig();
 
@@ -43,10 +43,10 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
     } catch (err) {
       return {
         track: this.trackName,
-        status: 'error',
+        status: "error",
         error: err.message,
         score: 0,
-        severity: 'unknown',
+        severity: "unknown",
         findings: [],
         suggestions: [],
       };
@@ -58,16 +58,32 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
    */
   async _detectTooling() {
     const checks = {
-      eslint: ['.eslintrc', '.eslintrc.js', '.eslintrc.json', '.eslintrc.yml', 'eslint.config.js', 'eslint.config.mjs'],
-      prettier: ['.prettierrc', '.prettierrc.js', '.prettierrc.json', 'prettier.config.js'],
-      biome: ['biome.json', 'biome.jsonc'],
-      typescript: ['tsconfig.json'],
-      husky: ['.husky'],
-      lintStaged: ['.lintstagedrc', '.lintstagedrc.json', 'lint-staged.config.js'],
-      editorconfig: ['.editorconfig'],
-      jest: ['jest.config.js', 'jest.config.ts', 'jest.config.mjs'],
-      vitest: ['vitest.config.js', 'vitest.config.ts'],
-      commitlint: ['commitlint.config.js', '.commitlintrc.json'],
+      eslint: [
+        ".eslintrc",
+        ".eslintrc.js",
+        ".eslintrc.json",
+        ".eslintrc.yml",
+        "eslint.config.js",
+        "eslint.config.mjs",
+      ],
+      prettier: [
+        ".prettierrc",
+        ".prettierrc.js",
+        ".prettierrc.json",
+        "prettier.config.js",
+      ],
+      biome: ["biome.json", "biome.jsonc"],
+      typescript: ["tsconfig.json"],
+      husky: [".husky"],
+      lintStaged: [
+        ".lintstagedrc",
+        ".lintstagedrc.json",
+        "lint-staged.config.js",
+      ],
+      editorconfig: [".editorconfig"],
+      jest: ["jest.config.js", "jest.config.ts", "jest.config.mjs"],
+      vitest: ["vitest.config.js", "vitest.config.ts"],
+      commitlint: ["commitlint.config.js", ".commitlintrc.json"],
     };
 
     const tooling = {};
@@ -87,11 +103,11 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
 
     // Also check package.json for inline configs
     try {
-      const pkgPath = path.join(this.targetDir, 'package.json');
-      const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
+      const pkgPath = path.join(this.targetDir, "package.json");
+      const pkg = JSON.parse(await fs.promises.readFile(pkgPath, "utf-8"));
       if (pkg.eslintConfig) tooling.eslint = true;
       if (pkg.prettier) tooling.prettier = true;
-      if (pkg['lint-staged']) tooling.lintStaged = true;
+      if (pkg["lint-staged"]) tooling.lintStaged = true;
     } catch {
       // No package.json
     }
@@ -99,31 +115,35 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
     this.metrics.tooling = tooling;
 
     // Score tooling coverage
-    const essentialTools = ['eslint', 'prettier', 'typescript', 'husky'];
-    const missingEssential = essentialTools.filter(t => !tooling[t]);
+    const essentialTools = ["eslint", "prettier", "typescript", "husky"];
+    const missingEssential = essentialTools.filter((t) => !tooling[t]);
 
     if (missingEssential.length > 0) {
       for (const tool of missingEssential) {
         const toolSuggestions = {
           eslint: {
-            title: 'Add ESLint for Code Linting',
-            description: 'ESLint catches bugs and enforces code standards. Run `npm init @eslint/config` to set up.',
-            severity: 'warning',
+            title: "Add ESLint for Code Linting",
+            description:
+              "ESLint catches bugs and enforces code standards. Run `npm init @eslint/config` to set up.",
+            severity: "warning",
           },
           prettier: {
-            title: 'Add Prettier for Code Formatting',
-            description: 'Prettier eliminates formatting debates. Run `npm install -D prettier` and create `.prettierrc`.',
-            severity: 'info',
+            title: "Add Prettier for Code Formatting",
+            description:
+              "Prettier eliminates formatting debates. Run `npm install -D prettier` and create `.prettierrc`.",
+            severity: "info",
           },
           typescript: {
-            title: 'Consider TypeScript for Type Safety',
-            description: 'TypeScript catches type-related bugs at compile time. Studies show it can reduce bugs by 15-25%. Run `npx tsc --init` to start.',
-            severity: 'warning',
+            title: "Consider TypeScript for Type Safety",
+            description:
+              "TypeScript catches type-related bugs at compile time. Studies show it can reduce bugs by 15-25%. Run `npx tsc --init` to start.",
+            severity: "warning",
           },
           husky: {
-            title: 'Add Git Hooks with Husky',
-            description: 'Husky runs linting and tests before commits, preventing bad code from entering the repo. Run `npx husky-init`.',
-            severity: 'info',
+            title: "Add Git Hooks with Husky",
+            description:
+              "Husky runs linting and tests before commits, preventing bad code from entering the repo. Run `npx husky-init`.",
+            severity: "info",
           },
         };
 
@@ -137,9 +157,10 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
         this.addSuggestion({
           title: sug.title,
           description: sug.description,
-          priority: tool === 'eslint' || tool === 'typescript' ? 'high' : 'medium',
-          impact: 'high',
-          effort: 'low',
+          priority:
+            tool === "eslint" || tool === "typescript" ? "high" : "medium",
+          impact: "high",
+          effort: "low",
         });
       }
     }
@@ -149,25 +170,24 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
    * Analyze source files for quality signals
    */
   async _analyzeSourceFiles() {
-    const sourcePatterns = [
-      '**/*.{js,jsx,ts,tsx,mjs,cjs}',
-    ];
+    const sourcePatterns = ["**/*.{js,jsx,ts,tsx,mjs,cjs}"];
     const ignorePatterns = [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/build/**',
-      '**/.next/**',
-      '**/coverage/**',
-      '**/vendor/**',
-      '**/*.min.js',
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.next/**",
+      "**/coverage/**",
+      "**/vendor/**",
+      "**/*.min.js",
     ];
 
     let files;
     try {
-      files = await fastGlob(sourcePatterns, {
+      files = await glob(sourcePatterns, {
         cwd: this.targetDir,
         ignore: ignorePatterns,
         absolute: true,
+        nodir: true,
       });
     } catch {
       return;
@@ -186,8 +206,8 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
 
     for (const file of files) {
       try {
-        const content = await fs.promises.readFile(file, 'utf-8');
-        const lines = content.split('\n');
+        const content = await fs.promises.readFile(file, "utf-8");
+        const lines = content.split("\n");
         const lineCount = lines.length;
         totalLines += lineCount;
 
@@ -201,15 +221,24 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
 
         // Large file detection
         if (lineCount > 500) {
-          largeFiles.push({ file: path.relative(this.targetDir, file), lines: lineCount });
+          largeFiles.push({
+            file: path.relative(this.targetDir, file),
+            lines: lineCount,
+          });
         }
 
         // TODO/FIXME/HACK counting
         for (const line of lines) {
-          if (/\/\/\s*TODO/i.test(line) || /\/\*\s*TODO/i.test(line)) totalTodos++;
-          if (/\/\/\s*FIXME/i.test(line) || /\/\*\s*FIXME/i.test(line)) totalFixmes++;
-          if (/\/\/\s*HACK/i.test(line) || /\/\*\s*HACK/i.test(line)) totalHacks++;
-          if (/console\.(log|warn|error|debug|info)\s*\(/.test(line) && !/\/\//.test(line.split('console')[0])) {
+          if (/\/\/\s*TODO/i.test(line) || /\/\*\s*TODO/i.test(line))
+            totalTodos++;
+          if (/\/\/\s*FIXME/i.test(line) || /\/\*\s*FIXME/i.test(line))
+            totalFixmes++;
+          if (/\/\/\s*HACK/i.test(line) || /\/\*\s*HACK/i.test(line))
+            totalHacks++;
+          if (
+            /console\.(log|warn|error|debug|info)\s*\(/.test(line) &&
+            !/\/\//.test(line.split("console")[0])
+          ) {
             totalConsoleLogs++;
           }
         }
@@ -223,7 +252,10 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
           maxNesting = Math.max(maxNesting, currentNesting);
         }
         if (maxNesting > 8) {
-          complexFiles.push({ file: path.relative(this.targetDir, file), maxNesting });
+          complexFiles.push({
+            file: path.relative(this.targetDir, file),
+            maxNesting,
+          });
         }
       } catch {
         // Skip unreadable files
@@ -250,40 +282,41 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
     // Findings
     if (largeFiles.length > 0) {
       this.addFinding({
-        severity: 'warning',
+        severity: "warning",
         title: `${largeFiles.length} Large Files Detected`,
         description: `Found ${largeFiles.length} files with more than 500 lines. Large files are harder to maintain and review. Biggest: ${largeFiles[0].file} (${largeFiles[0].lines} lines).`,
         data: { largeFiles: largeFiles.slice(0, 5) },
       });
       this.addSuggestion({
-        title: 'Break Down Large Files',
+        title: "Break Down Large Files",
         description: `Split large files into smaller, focused modules. Start with ${largeFiles[0].file}.`,
-        priority: 'medium',
-        impact: 'medium',
-        effort: 'medium',
+        priority: "medium",
+        impact: "medium",
+        effort: "medium",
       });
     }
 
     if (totalConsoleLogs > 20) {
       this.addFinding({
-        severity: 'warning',
-        title: 'Console.log Pollution',
+        severity: "warning",
+        title: "Console.log Pollution",
         description: `Found ${totalConsoleLogs} console.log statements in the codebase. These should be replaced with a proper logging library or removed.`,
         data: { count: totalConsoleLogs },
       });
       this.addSuggestion({
-        title: 'Replace Console.log with Proper Logging',
-        description: 'Use a structured logging library (e.g., pino, winston) and add an ESLint rule to disallow console.log.',
-        priority: 'medium',
-        impact: 'medium',
-        effort: 'low',
+        title: "Replace Console.log with Proper Logging",
+        description:
+          "Use a structured logging library (e.g., pino, winston) and add an ESLint rule to disallow console.log.",
+        priority: "medium",
+        impact: "medium",
+        effort: "low",
       });
     }
 
     if (totalFixmes + totalHacks > 10) {
       this.addFinding({
-        severity: 'warning',
-        title: 'Technical Debt Markers',
+        severity: "warning",
+        title: "Technical Debt Markers",
         description: `Found ${totalFixmes} FIXME and ${totalHacks} HACK comments. These indicate known technical debt that should be addressed.`,
         data: { fixmes: totalFixmes, hacks: totalHacks },
       });
@@ -291,8 +324,8 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
 
     if (totalTodos > 20) {
       this.addFinding({
-        severity: 'info',
-        title: 'High TODO Count',
+        severity: "info",
+        title: "High TODO Count",
         description: `Found ${totalTodos} TODO comments. Consider creating issues for these and tracking them properly.`,
         data: { todos: totalTodos },
       });
@@ -323,22 +356,24 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
 
     if (tsPct === 0 && total > 5) {
       this.addFinding({
-        severity: 'warning',
-        title: 'No TypeScript Adoption',
-        description: 'The entire codebase is JavaScript. TypeScript can catch 15-25% of bugs at compile time and significantly improve developer experience with better IDE support.',
+        severity: "warning",
+        title: "No TypeScript Adoption",
+        description:
+          "The entire codebase is JavaScript. TypeScript can catch 15-25% of bugs at compile time and significantly improve developer experience with better IDE support.",
         data: { jsFiles, tsFiles },
       });
       this.addSuggestion({
-        title: 'Migrate to TypeScript',
-        description: 'Start with `npx tsc --init` and rename files incrementally from .js to .ts. Begin with utility files and shared types.',
-        priority: 'high',
-        impact: 'high',
-        effort: 'high',
+        title: "Migrate to TypeScript",
+        description:
+          "Start with `npx tsc --init` and rename files incrementally from .js to .ts. Begin with utility files and shared types.",
+        priority: "high",
+        impact: "high",
+        effort: "high",
       });
     } else if (tsPct > 0 && tsPct < 50) {
       this.addFinding({
-        severity: 'info',
-        title: 'Partial TypeScript Adoption',
+        severity: "info",
+        title: "Partial TypeScript Adoption",
         description: `Only ${tsPct}% of files use TypeScript. Consider migrating more files for better type safety.`,
         data: { tsPct },
       });
@@ -353,16 +388,16 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
 
     // Check for common ESLint plugins
     try {
-      const pkgPath = path.join(this.targetDir, 'package.json');
-      const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
+      const pkgPath = path.join(this.targetDir, "package.json");
+      const pkg = JSON.parse(await fs.promises.readFile(pkgPath, "utf-8"));
       const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
 
       const usefulPlugins = {
-        'eslint-plugin-sonarjs': 'SonarJS (bug detection)',
-        'eslint-plugin-security': 'Security rules',
-        'eslint-plugin-import': 'Import/export rules',
-        'eslint-plugin-unused-imports': 'Unused import detection',
-        '@typescript-eslint/eslint-plugin': 'TypeScript rules',
+        "eslint-plugin-sonarjs": "SonarJS (bug detection)",
+        "eslint-plugin-security": "Security rules",
+        "eslint-plugin-import": "Import/export rules",
+        "eslint-plugin-unused-imports": "Unused import detection",
+        "@typescript-eslint/eslint-plugin": "TypeScript rules",
       };
 
       const missingPlugins = [];
@@ -373,15 +408,15 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
       }
 
       this.metrics.eslintPlugins = {
-        installed: Object.keys(usefulPlugins).filter(p => allDeps[p]),
+        installed: Object.keys(usefulPlugins).filter((p) => allDeps[p]),
         missing: missingPlugins,
       };
 
       if (missingPlugins.length > 2) {
         this.addFinding({
-          severity: 'info',
-          title: 'ESLint Could Be More Comprehensive',
-          description: `Missing useful ESLint plugins: ${missingPlugins.map(p => p.name).join(', ')}`,
+          severity: "info",
+          title: "ESLint Could Be More Comprehensive",
+          description: `Missing useful ESLint plugins: ${missingPlugins.map((p) => p.name).join(", ")}`,
           data: { missingPlugins },
         });
       }
@@ -400,17 +435,19 @@ class CodeQualityAnalyzer extends BaseAnalyzer {
 
     if (!hasPrettier && !hasBiome) {
       this.addFinding({
-        severity: 'info',
-        title: 'No Auto-Formatter Configured',
-        description: 'No Prettier or Biome configuration found. Auto-formatting eliminates style debates and keeps code consistent.',
+        severity: "info",
+        title: "No Auto-Formatter Configured",
+        description:
+          "No Prettier or Biome configuration found. Auto-formatting eliminates style debates and keeps code consistent.",
       });
     }
 
     if (!hasEditorConfig) {
       this.addFinding({
-        severity: 'info',
-        title: 'No .editorconfig',
-        description: 'An .editorconfig file ensures consistent formatting across different editors and IDEs.',
+        severity: "info",
+        title: "No .editorconfig",
+        description:
+          "An .editorconfig file ensures consistent formatting across different editors and IDEs.",
       });
     }
   }

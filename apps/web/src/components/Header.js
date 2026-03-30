@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 export function Header({ timestamp }) {
   return (
@@ -14,7 +14,9 @@ export function Header({ timestamp }) {
                 DX-Ray
               </span>
             </h1>
-            <p className="text-xs text-text-muted">Developer Experience Diagnostics</p>
+            <p className="text-xs text-text-muted">
+              Developer Experience Diagnostics
+            </p>
           </div>
         </div>
 

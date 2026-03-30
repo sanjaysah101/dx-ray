@@ -57,10 +57,11 @@ program
     );
 
     const targetDir = path.resolve(options.dir);
-    const spinner = ora({
+    const isTTY = process.stdout.isTTY;
+    const spinner = isTTY ? ora({
       text: "Initializing scan...",
       color: "cyan",
-    }).start();
+    }).start() : null;
 
     try {
       const dxray = new DXRay({ targetDir });
@@ -78,11 +79,20 @@ program
 
       // Scan each track with progress
       for (let i = 0; i < trackNames.length; i++) {
-        spinner.text = `Scanning ${trackNames[i]} (${i + 1}/${trackNames.length})...`;
+        const msg = `Scanning ${trackNames[i]} (${i + 1}/${trackNames.length})...`;
+        if (spinner) {
+          spinner.text = msg;
+        } else {
+          console.log(chalk.cyan(`  ▶ ${msg}`));
+        }
         await dxray.scanTrack(trackNames[i]);
       }
 
-      spinner.succeed("Scan complete!\n");
+      if (spinner) {
+        spinner.succeed("Scan complete!\n");
+      } else {
+        console.log(chalk.green("  ✓ Scan complete!\n"));
+      }
 
       const results = dxray.results;
 
@@ -126,7 +136,11 @@ program
         await open(`http://localhost:${port}`);
       }
     } catch (err) {
-      spinner.fail(`Scan failed: ${err.message}`);
+      if (spinner) {
+        spinner.fail(`Scan failed: ${err.message}`);
+      } else {
+        console.log(chalk.red(`  ✗ Scan failed: ${err.message}`));
+      }
       process.exit(1);
     }
   });

@@ -5,12 +5,14 @@ This directory contains anonymized scan results from a real-world codebase for d
 ## Before & After
 
 ### Before (January 2026)
+
 - **Score: 52/100 (Grade F)**
 - 28 findings (6 critical, 14 warnings)
 - No TypeScript, no formatting, low test coverage
 - Bus factor of 1, 34% late-night commits
 
 ### After (March 2026) — After applying DX-Ray suggestions
+
 - **Score: 81/100 (Grade B)** — **+29 point improvement!**
 - 9 findings (0 critical, 5 warnings)
 - TypeScript migration at 45%, Prettier added
@@ -25,6 +27,7 @@ node packages/cli/bin/dx-ray.js compare demo/before-scan.json demo/after-scan.js
 ```
 
 ## Key improvements made:
+
 1. ✅ Added TypeScript (45% migrated)
 2. ✅ Added Prettier + Husky
 3. ✅ Enabled CI caching (45% faster builds)

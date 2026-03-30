@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
 export function SuggestionsList({ suggestions }) {
   if (!suggestions || suggestions.length === 0) return null;
@@ -25,12 +25,16 @@ export function SuggestionsList({ suggestions }) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <h3 className="font-semibold text-sm">{sug.title}</h3>
-                <span className={clsx(
-                  'text-[10px] px-2 py-0.5 rounded-full font-semibold',
-                  sug.priority === 'high' ? 'bg-dx-red/15 text-dx-red' :
-                  sug.priority === 'medium' ? 'bg-dx-yellow/15 text-dx-yellow' :
-                  'bg-text-muted/15 text-text-muted'
-                )}>
+                <span
+                  className={clsx(
+                    "text-[10px] px-2 py-0.5 rounded-full font-semibold",
+                    sug.priority === "high"
+                      ? "bg-dx-red/15 text-dx-red"
+                      : sug.priority === "medium"
+                        ? "bg-dx-yellow/15 text-dx-yellow"
+                        : "bg-text-muted/15 text-text-muted",
+                  )}
+                >
                   {sug.priority?.toUpperCase()}
                 </span>
                 {sug.impact && (
