@@ -10,6 +10,11 @@ DX-Ray scans your codebase, git history, CI/CD pipelines, test suites, documenta
 
 ---
 
+<div align="center">
+  <h3>🏆 3rd Place Winner - Hackathon Raptors 🏆</h3>
+  <img src="assets/dxr_sanjay_kumar_sah.jpg" alt="Certificate of Achievement" width="500"/>
+</div>
+
 ## ✨ Features
 
 ### 7 Diagnostic Tracks
@@ -41,7 +46,7 @@ DX-Ray scans your codebase, git history, CI/CD pipelines, test suites, documenta
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-org/dx-ray.git
+git clone https://github.com/sanjaysah101/dx-ray.git
 cd dx-ray
 
 # Install dependencies
